@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="%PUBLIC_URL%mainicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="index.css">
+    <title>Date Planner</title>
+</head>
+<body id="Homepage" class="homepage">
+    <header>
+        <nav class="navigation">
+            <img src="logo.webp" alt="EfficientWizr Logo" class="logo"> <!-- Replace 'logo.png' with your logo's path -->
+            <div class="nav-title">EfficientWizr Application</div> <!-- Centered Text -->
+            <ul class="navbarul">
+                <li><a href="Home.html" class="nvb">Home</a></li>
+                <li><a href="AI_Picker.html" class="nvb">AI Picker</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <!-- First Box -->
+        <div class="container2">
+            <h2>Welcome!</h2>
+            <p>
+                Welcome to the Date Planner. Here you can organize your tasks efficiently by entering task details. 
+                <strong>We recommend manually adding tasks here for important or time-sensitive activities such as meetings, appointments, or deadlines.</strong> 
+                Check the task planner grid for updates!
+            </p>
+        </div>
+
+        <!-- Task Input Box -->
+        <div class="container2">
+            <h2>Add a Task</h2>
+            <form id="taskForm">
+                <label for="taskDate">Date:</label>
+                <input type="date" id="taskDate" required><br>
+                <label for="taskName">Task Name:</label>
+                <input type="text" id="taskName" required><br>
+                <label for="startTime">Start Time:</label>
+                <input type="time" id="startTime" required><br>
+                <label for="endTime">End Time:</label>
+                <input type="time" id="endTime" required><br>
+                <button type="button" id="addTaskBtn" class="btn">Add Task</button>
+            </form>
+        </div>
+        <div class="completed-tasks-button">
+            <button id="seeCompletedTasksBtn" onclick="navigateToCompletedTasks()">See Completed Tasks</button>
+        </div>  
+        <!-- Task Grid Box -->
+        <div class="container2 grid-box">
+            <h2>Task Planner</h2>
+            <div id="taskGrid">
+                <table id="taskTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Task Name</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Delete</th>
+                            <th>Done</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Tasks will be dynamically added here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+    </main>
+   
+    <script src="script.js"></script>
+</body>
+</html>

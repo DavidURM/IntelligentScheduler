@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="%PUBLIC_URL%mainicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="index.css">
+    <title>AI Picker</title>
+</head>
+<body id="Homepage" class="homepage">
+    <header>
+        <nav class="navigation">
+            <img src="logo.webp" alt="EfficientWizr Logo" class="logo"> <!-- Replace 'logo.png' with your logo's path -->
+            <div class="nav-title">EfficientWizer Application</div> <!-- Centered Text -->
+            <ul class="navbarul">
+                <li><a href="Home.html" class="nvb">Home</a></li>
+                <li><a href="AI_Picker.html" class="nvb">AI Picker</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="main-content">
+        <!-- Welcome Box -->
+        <div class="container2">
+            <h2>Welcome to AI Picker!</h2>
+            <p>
+                This AI-powered planner will help you find the best spot for your tasks. Add the task duration in hours, 
+                and the AI will automatically find and rearrange tasks for the most optimized schedule considering existing tasks. 
+                <strong>We recommend using this for less critical tasks such as free time, study sessions, or other flexible activities.</strong>
+            </p>
+        </div>
+
+        <!-- Task Input Box -->
+        <div class="container2">
+            <h2>Add a Task</h2>
+            <form id="taskForm">
+                <label for="taskName">Task Name:</label>
+                <input type="text" id="taskName" required><br>
+                <label for="duration">Duration (in hours):</label>
+                <input type="number" id="duration" min="0.5" max="14" step="0.5" required><br>
+                <button type="button" id="addTaskBtn" class="btn">Add Task</button>
+            </form>
+        </div>
+
+        <!-- Task Grid Box -->
+        <div class="container2 grid-box">
+            <h2>Task Planner</h2>
+            <div id="taskGrid">
+                <table id="taskTable">
+                    <thead>
+                        <tr>
+                            <th>Task Name</th>
+                            <th>Date</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Tasks will be dynamically added here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script src="ai_picker.js"></script>
+</body>
+</html>

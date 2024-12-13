@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>Completed Tasks</title>
+</head>
+<body id="Homepage" class="homepage">
+    <header>
+        <nav class="navigation">
+            <img src="logo.webp" alt="EfficientWizr Logo" class="logo"> <!-- Replace 'logo.png' with your logo's path -->
+            <div class="nav-title">EfficientWizer Application</div> <!-- Centered Text -->
+            <ul class="navbarul">
+                <li><a href="Home.html" class="nvb">Home</a></li>
+                <li><a href="AI_Picker.html" class="nvb">AI Picker</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <!-- Welcome Box -->
+        <div class="container2">
+            <h2>Completed Tasks</h2>
+            <p>Here you can view and manage your completed tasks. Tasks are listed in order of completion, with the most recent ones displayed first.</p>
+        </div>
+
+        <!-- Completed Tasks Table -->
+        <div class="container2 grid-box">
+            <h2>Completed Tasks</h2>
+            <div id="completedTaskGrid">
+                <table id="completedTaskTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Task Name</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Completed tasks will be dynamically added here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Button to Go Back -->
+        <div class="completed-tasks-button">
+            <button onclick="navigateToHome()">Go Back to Tasks</button>
+        </div>
+    </main>
+    
+    <script>
+     document.addEventListener('DOMContentLoaded', () => {
+    // Load completed tasks from the server
+    fetch('/completed-tasks')
+.then(response => response.json())
+        .then(tasks => {
+            const tableBody = document.querySelector('#completedTaskTable tbody');
+            tasks.forEach((task, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${task.date}</td>
+                    <td>${task.name}</td>
+                    <td>${formatTime(task.start)}</td>
+                    <td>${formatTime(task.end)}</td>
+                    <td><button class="delete-btn" data-index="${index}">Delete</button></td>
+                `;
+                tableBody.appendChild(row);
+            });
+
+            // Attach delete functionality to buttons
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', (event) => deleteTask(event, tasks));
+            });
+        })
+        .catch(error => console.error('Error loading completed tasks:', error));
+});
+
+// Function to delete a completed task
+function deleteTask(event, tasks) {
+    const taskIndex = parseInt(event.target.dataset.index, 10);
+    if (isNaN(taskIndex) || taskIndex < 0 || taskIndex >= tasks.length) {
+        console.error('Invalid task index:', taskIndex);
+        return;
+    }
+
+    // Remove the selected task
+    tasks.splice(taskIndex, 1);
+
+    // Filter out invalid entries before sending the data back
+    const validTasks = tasks.filter(
+        task => task && typeof task === 'object' && task.name && task.date
+    );
+
+    // Save the updated tasks back to the server
+    fetch('/completed-tasks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(validTasks),
+    })
+        .then(() => updateCompletedTasksUI(validTasks))
+        .catch(error => console.error('Error deleting task:', error));
+}
+
+// Update the UI with the latest tasks
+function updateCompletedTasksUI(tasks) {
+    const tableBody = document.querySelector('#completedTaskTable tbody');
+    tableBody.innerHTML = ''; // Clear the table
+
+    tasks.forEach((task, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${task.date}</td>
+            <td>${task.name}</td>
+            <td>${formatTime(task.start)}</td>
+            <td>${formatTime(task.end)}</td>
+            <td><button class="delete-btn" data-index="${index}">Delete</button></td>
+        `;
+        tableBody.appendChild(row);
+    });
+
+    // Attach delete functionality to the updated table
+    document.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', (event) => deleteTask(event, tasks));
+    });
+}
+
+
+// Format decimal time to HH:MM
+function formatTime(decimalTime) {
+    if (decimalTime === undefined || decimalTime === null || isNaN(decimalTime)) {
+        return 'Invalid Time'; // Return 'Invalid Time' only if the input is invalid
+    }
+    const hours = Math.floor(decimalTime);
+    const minutes = Math.round((decimalTime % 1) * 60);
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+}
+
+// Function to navigate back to Home.html
+function navigateToHome() {
+    window.location.href = 'Home.html';
+}
+
+    </script>
+</body>
+</html>
